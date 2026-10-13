@@ -1,0 +1,433 @@
+{
+  "info": {
+    "name": "Maintenance Work Order Management API",
+    "description": "Postman Collection for testing all REST endpoints, business rules, and status transitions of the Maintenance Work Order Management System.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8081",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "1. Assets",
+      "item": [
+        {
+          "name": "GET All Assets",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/assets",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "assets"]
+            }
+          }
+        },
+        {
+          "name": "GET Asset by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/assets/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "assets", "1"]
+            }
+          }
+        },
+        {
+          "name": "POST Create New Asset",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"assetId\": \"ASSET-006\",\n  \"assetType\": \"Cooling Tower\",\n  \"manufacturer\": \"Baltimore Aircoil\",\n  \"model\": \"VXT-350\",\n  \"serialNumber\": \"SN-TOWER-006\",\n  \"usageHours\": 1200,\n  \"usageCycles\": 350,\n  \"status\": \"ACTIVE\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/assets",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "assets"]
+            }
+          }
+        },
+        {
+          "name": "PUT Update Asset",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"assetId\": \"ASSET-001\",\n  \"assetType\": \"HVAC System\",\n  \"manufacturer\": \"Carrier Updated\",\n  \"model\": \"50XC-060-REV2\",\n  \"serialNumber\": \"SN-HVAC-001\",\n  \"usageHours\": 4850,\n  \"usageCycles\": 950,\n  \"status\": \"ACTIVE\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/assets/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "assets", "1"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "2. Technicians",
+      "item": [
+        {
+          "name": "GET All Technicians",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/technicians",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "technicians"]
+            }
+          }
+        },
+        {
+          "name": "GET Technician by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/technicians/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "technicians", "1"]
+            }
+          }
+        },
+        {
+          "name": "POST Register Technician",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Marcus Vance\",\n  \"skill\": \"Hydraulics\",\n  \"status\": \"AVAILABLE\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/technicians",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "technicians"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "3. Maintenance Types",
+      "item": [
+        {
+          "name": "GET All Maintenance Types",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/maintenance-types",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "maintenance-types"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "4. Work Orders (Standard Operations)",
+      "item": [
+        {
+          "name": "GET All Work Orders",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/work-orders",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "work-orders"]
+            }
+          }
+        },
+        {
+          "name": "GET Filter by Status",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/work-orders?status=OPEN",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "work-orders"],
+              "query": [
+                {
+                  "key": "status",
+                  "value": "OPEN"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "GET Filter by Combined Criteria",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/work-orders?status=OPEN&priority=HIGH&asset_id=1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "work-orders"],
+              "query": [
+                {
+                  "key": "status",
+                  "value": "OPEN"
+                },
+                {
+                  "key": "priority",
+                  "value": "HIGH"
+                },
+                {
+                  "key": "asset_id",
+                  "value": "1"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "GET Work Order by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/work-orders/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "work-orders", "1"]
+            }
+          }
+        },
+        {
+          "name": "GET Work Order History (Audit Trail)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/work-orders/1/history",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "work-orders", "1", "history"]
+            }
+          }
+        },
+        {
+          "name": "POST Create Valid Work Order",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"workOrderNumber\": \"WO-PM-2026-001\",\n  \"assetId\": 2,\n  \"maintenanceTypeId\": 1,\n  \"description\": \"Routine 12,000-hour generator overhaul and fuel filter flush\",\n  \"priority\": \"HIGH\",\n  \"assignedTechnicianId\": 2,\n  \"scheduledDate\": \"2026-10-30\",\n  \"status\": \"OPEN\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/work-orders",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "work-orders"]
+            }
+          }
+        },
+        {
+          "name": "PUT Transition Status: OPEN -> ASSIGNED",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"workOrderNumber\": \"WO-TEST-100\",\n  \"assetId\": 1,\n  \"maintenanceTypeId\": 1,\n  \"description\": \"Initial routine inspection of HVAC unit\",\n  \"priority\": \"HIGH\",\n  \"assignedTechnicianId\": 1,\n  \"scheduledDate\": \"2026-10-20\",\n  \"status\": \"ASSIGNED\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/work-orders/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "work-orders", "1"]
+            }
+          }
+        },
+        {
+          "name": "PUT Transition Status: ASSIGNED -> IN_PROGRESS",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"workOrderNumber\": \"WO-TEST-100\",\n  \"assetId\": 1,\n  \"maintenanceTypeId\": 1,\n  \"description\": \"Technician has begun working on HVAC filters\",\n  \"priority\": \"HIGH\",\n  \"assignedTechnicianId\": 1,\n  \"scheduledDate\": \"2026-10-20\",\n  \"status\": \"IN_PROGRESS\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/work-orders/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "work-orders", "1"]
+            }
+          }
+        },
+        {
+          "name": "PUT Transition Status: IN_PROGRESS -> COMPLETED",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"workOrderNumber\": \"WO-TEST-100\",\n  \"assetId\": 1,\n  \"maintenanceTypeId\": 1,\n  \"description\": \"Maintenance completed successfully. Air flow tests passed.\",\n  \"priority\": \"HIGH\",\n  \"assignedTechnicianId\": 1,\n  \"scheduledDate\": \"2026-10-20\",\n  \"status\": \"COMPLETED\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/work-orders/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "work-orders", "1"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "5. Business Rules Enforcement (Expected Rejections)",
+      "item": [
+        {
+          "name": "Rule 1: Duplicate Work Order Number (Expects 409 Conflict)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"workOrderNumber\": \"WO-TEST-100\",\n  \"assetId\": 1,\n  \"maintenanceTypeId\": 1,\n  \"description\": \"Duplicate WO number attempt\",\n  \"priority\": \"LOW\",\n  \"scheduledDate\": \"2026-10-25\",\n  \"status\": \"OPEN\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/work-orders",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "work-orders"]
+            }
+          }
+        },
+        {
+          "name": "Rule 2: CRITICAL Without Assigned Technician (Expects 400 Bad Request)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"workOrderNumber\": \"WO-FAIL-CRIT\",\n  \"assetId\": 1,\n  \"maintenanceTypeId\": 1,\n  \"description\": \"Emergency fault with no assigned technician\",\n  \"priority\": \"CRITICAL\",\n  \"assignedTechnicianId\": null,\n  \"scheduledDate\": \"2026-10-25\",\n  \"status\": \"OPEN\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/work-orders",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "work-orders"]
+            }
+          }
+        },
+        {
+          "name": "Rule 5: Scheduled Date in Past (Expects 400 Bad Request)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"workOrderNumber\": \"WO-FAIL-DATE\",\n  \"assetId\": 1,\n  \"maintenanceTypeId\": 1,\n  \"description\": \"Trying to set scheduled date in the past\",\n  \"priority\": \"MEDIUM\",\n  \"assignedTechnicianId\": 1,\n  \"scheduledDate\": \"2020-01-01\",\n  \"status\": \"OPEN\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/work-orders",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "work-orders"]
+            }
+          }
+        },
+        {
+          "name": "Rule 6: OUT_OF_SERVICE Asset with Non-Emergency Type (Expects 400 Bad Request)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"workOrderNumber\": \"WO-FAIL-OOS\",\n  \"assetId\": 5,\n  \"maintenanceTypeId\": 1,\n  \"description\": \"Asset 5 is OUT_OF_SERVICE but Type 1 is Preventive (not emergency)\",\n  \"priority\": \"HIGH\",\n  \"assignedTechnicianId\": 1,\n  \"scheduledDate\": \"2026-10-25\",\n  \"status\": \"OPEN\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/work-orders",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "work-orders"]
+            }
+          }
+        },
+        {
+          "name": "Rule 6 Success: OUT_OF_SERVICE Asset WITH Emergency Type (Expects 201 Created)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"workOrderNumber\": \"WO-OK-EMERG-001\",\n  \"assetId\": 5,\n  \"maintenanceTypeId\": 3,\n  \"description\": \"Asset 5 is OUT_OF_SERVICE and Type 3 is Emergency Repair (Allowed!)\",\n  \"priority\": \"CRITICAL\",\n  \"assignedTechnicianId\": 1,\n  \"scheduledDate\": \"2026-10-25\",\n  \"status\": \"OPEN\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/work-orders",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "work-orders"]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

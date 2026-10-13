@@ -1,0 +1,54 @@
+# =====================================================================
+# Root .gitignore for Maintenance Work Order Management System
+# =====================================================================
+
+# Environment variables & secrets (CRITICAL: Never commit credentials)
+.env
+.env.local
+.env.*.local
+*.env
+.env.txt
+*.env.txt
+
+# Operating System files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE & Editor files
+.idea/
+*.iml
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+.classpath
+.project
+.settings/
+
+# ---------------------------------------------------------------------
+# Backend (Java / Spring Boot / Maven)
+# ---------------------------------------------------------------------
+backend/target/
+target/
+*.class
+*.log
+*.dump
+*.dumpstream
+
+# ---------------------------------------------------------------------
+# Frontend (Node.js / React / Vite)
+# ---------------------------------------------------------------------
+frontend/node_modules/
+node_modules/
+frontend/dist/
+dist/
+dist-ssr/
+*.local
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
